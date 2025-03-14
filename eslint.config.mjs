@@ -31,8 +31,19 @@ export default tseslint.config(
         'error', {
           'endOfLine': 'auto',
           'singleQuote': true,
-          'semi': true,
+          'semi': true,   
           'trailingComma': 'all',
+        }
+      ],
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: ["interface", "type"],
+          format: ["PascalCase"],
+          custom: {
+            regex: "^I[A-Z]",
+            match: true
+          },
         }
       ],
       '@typescript-eslint/no-explicit-any': 'off',
