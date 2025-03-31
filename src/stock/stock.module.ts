@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { Product, ProductSchema } from './schemas/product.schema';
-import { ProductRepository } from './repositories/product.repository';
+import { StockController } from './controllers/stock.controller';
 import { ProductMongooseRepository } from './repositories/mongoose/product.mongoose.repository';
+import { ProductRepository } from './repositories/product.repository';
+import { Product, ProductSchema } from './schemas/product.schema';
 import { StockService } from './services/stock.service';
 
 @Module({
@@ -17,5 +18,6 @@ import { StockService } from './services/stock.service';
     },
     StockService,
   ],
+  controllers: [StockController],
 })
 export class StockModule {}
