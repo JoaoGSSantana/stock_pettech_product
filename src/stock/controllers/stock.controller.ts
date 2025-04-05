@@ -10,10 +10,14 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 
 import { StockService } from '../services/stock.service';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { LoggingInterceptor } from 'src/shared/interceptors/logging.interceptor';
 
 const createStockSchema = z.object({
   name: z.string(),
@@ -29,10 +33,12 @@ type CreateStock = z.infer<typeof createStockSchema>;
 
 type UpdateStock = z.infer<typeof updateStockSchema>;
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('stock')
 export class StockController {
   constructor(private readonly stockService: StockService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   async getAllStock(
     @Query('limit') limit: number,
