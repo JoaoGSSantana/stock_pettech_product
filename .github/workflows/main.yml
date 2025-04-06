@@ -21,11 +21,11 @@ jobs:
         env:
           PORT: ${{ secrets.PORT }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker build -t $DOCKER_USERNAME/pettech-stock:latest \
             --build-arg PORT=PORT \
             --build-arg JWT_SECRET=$JWT_SECRET \
-            --build-arg DATABASE_URL=$DATABASE_URL .
+            --build-arg MONGO_URI=$MONGO_URI .
           docker push $DOCKER_USERNAME/pettech-stock:latest
