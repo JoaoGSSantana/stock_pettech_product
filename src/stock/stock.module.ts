@@ -1,3 +1,5 @@
+import { PrometheusService } from 'src/shared/services/prometheus.service';
+
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -17,6 +19,7 @@ import { StockService } from './services/stock.service';
       useClass: ProductMongooseRepository,
     },
     StockService,
+    PrometheusService
   ],
   controllers: [StockController],
 })
