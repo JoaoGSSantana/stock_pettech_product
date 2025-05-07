@@ -16,7 +16,7 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { StockService } from '../services/stock.service';
 
@@ -31,7 +31,6 @@ const updateStockSchema = z.object({
 });
 
 type CreateStock = z.infer<typeof createStockSchema>;
-
 type UpdateStock = z.infer<typeof updateStockSchema>;
 
 @ApiTags('Stock')
@@ -42,6 +41,9 @@ export class StockController {
 
   @UseGuards(AuthGuard)
   @Get()
+  @ApiOperation({
+    summary: 'Listar todos os produtos em estoque com paginação',
+  })
   async getAllStock(
     @Query('limit') limit: number,
     @Query('page') page: number,
@@ -50,17 +52,24 @@ export class StockController {
   }
 
   @Get(':productId')
+  @ApiOperation({
+    summary: 'Obter os dados de estoque de um produto específico',
+  })
   async getStock(@Param('productId') productId: string) {
     return this.stockService.getStockById(productId);
   }
 
   @UsePipes(new ZodValidationPipe(createStockSchema))
   @Post()
+  @ApiOperation({
+    summary: 'Criar um novo registro de estoque para um produto',
+  })
   async createStock(@Body() product: CreateStock) {
     await this.stockService.createStock(product);
   }
 
   @Put(':productId')
+  @ApiOperation({ summary: 'Atualizar a quantidade de estoque de um produto' })
   async updateStock(
     @Param('productId') productId: string,
     @Body(new ZodValidationPipe(updateStockSchema)) { stock }: UpdateStock,
@@ -69,6 +78,7 @@ export class StockController {
   }
 
   @Delete(':productId')
+  @ApiOperation({ summary: 'Remover o registro de estoque de um produto' })
   async deleteStock(@Param('productId') productId: string) {
     await this.stockService.deleteStock(productId);
   }
