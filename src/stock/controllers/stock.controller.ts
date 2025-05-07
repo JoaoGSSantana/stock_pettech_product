@@ -1,3 +1,5 @@
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { LoggingInterceptor } from 'src/shared/interceptors/logging.interceptor';
 import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
 import { z } from 'zod';
 
@@ -14,10 +16,9 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { StockService } from '../services/stock.service';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { LoggingInterceptor } from 'src/shared/interceptors/logging.interceptor';
 
 const createStockSchema = z.object({
   name: z.string(),
@@ -33,6 +34,7 @@ type CreateStock = z.infer<typeof createStockSchema>;
 
 type UpdateStock = z.infer<typeof updateStockSchema>;
 
+@ApiTags('Stock')
 @UseInterceptors(LoggingInterceptor)
 @Controller('stock')
 export class StockController {
